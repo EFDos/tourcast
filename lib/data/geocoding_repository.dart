@@ -4,30 +4,32 @@ import 'package:http/http.dart' as http;
 import 'package:tourcast/domain/geocoordinates.dart';
 
 class GeocodingRepository {
-  static const String _endpoint = 'api.openweathermap.org';
-  static const String _apiPath = '/geo/1.0/direct';
+  static const String _baseUrl = 'api.openweathermap.org';
+  static const String _api = '/geo/1.0';
+  static const String _direct = '/direct';
 
   final http.Client client;
   final String apiKey;
 
   GeocodingRepository({required this.client, required this.apiKey});
   Future<GeoCoordinates> getCityLocation(
-      String cityName, int countryCode) async {
+      {required String cityName, required int countryCode}) async {
     cityName.replaceAll(' ', '\\');
 
     try {
-      final response =
-          await client.get(Uri.http(_endpoint, _apiPath), headers: {
+      final url = Uri.http(_baseUrl, _api + _direct, {
         'q': '$cityName,$countryCode',
         'limit': '1',
         'appid': apiKey,
       });
+      final response = await client.get(url);
 
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
         return GeoCoordinates.fromJson(decoded[0]);
       } else {
-        throw StateError;
+        throw HttpException(
+            'Http error: ${response.statusCode}: ${response.body}');
       }
     } on SocketException catch (_) {
       stderr.writeln('TODO: Handle no internet connection');

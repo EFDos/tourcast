@@ -28,7 +28,7 @@ void main() {
         client: client, apiKey: await Environment.getApiKey());
 
     GeoCoordinates geoCoords =
-        await repository.getCityLocation('London', 55);
+        await repository.getCityLocation(cityName: 'Sao Paulo', countryCode: 55);
     expect(geoCoords, GeoCoordinates(latitude: 51.5073219, longitude: -0.1276474));
   });
 }

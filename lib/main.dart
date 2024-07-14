@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-// App Pages
-import 'presentation/concerts_page.dart';
+import 'package:tourcast/presentation/concerts_page.dart';
 
 void main() {
   runApp(const MyApp());
