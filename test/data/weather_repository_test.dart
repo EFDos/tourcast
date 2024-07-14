@@ -70,6 +70,6 @@ void main() {
 
     Weather weather =
         await repository.getCurrentWeather(GeoCoordinates(latitude: 44.34, longitude: 10.99));
-    expect(weather, Weather(main: 'Blah', temperature: 298.48));
+    expect(weather, Weather(description: 'moderate rain', temperature: 298.48));
   });
 }
