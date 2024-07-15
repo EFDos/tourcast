@@ -21,7 +21,7 @@ class WeatherIcon extends StatelessWidget {
       return Icons.sunny;
     }
     if (conditionId > 800) {
-      return Icons.wb_cloudy;
+      return Icons.wb_cloudy_sharp;
     }
     return Icons.signal_wifi_connected_no_internet_4;
   }
@@ -40,10 +40,10 @@ class WeatherIcon extends StatelessWidget {
       return Colors.lightBlue;
     }
     if (conditionId == 800) {
-      return Colors.yellow.shade400;
+      return Colors.yellow.shade900;
     }
     if (conditionId > 800) {
-      return Colors.grey.shade200;
+      return Colors.grey.shade500;
     }
     return Colors.black;
   }

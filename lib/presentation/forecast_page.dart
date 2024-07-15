@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tourcast/constants.dart';
 import 'package:tourcast/domain/city.dart';
 import 'package:tourcast/presentation/forecast_page_controller.dart';
 import 'package:tourcast/presentation/forecast_item.dart';
@@ -24,33 +25,14 @@ class ForecastPage extends ConsumerWidget {
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Constants.nightColorDark,
       ),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: state.when(
-            data: (data) {
-              final c = data[0].conditionId;
-              if (c < 800) {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.lightBlue.shade400, Colors.blue.shade800],
-                );
-              } else {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.grey.shade400, Colors.grey.shade800],
-                );
-              }
-            },
-            loading: () => LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.grey.shade400, Colors.grey.shade800],
-            ),
-            error: (_, __) => const LinearGradient(colors: []),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: Constants.backgroundGradient,
           ),
         ),
         child: SafeArea(

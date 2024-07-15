@@ -76,7 +76,7 @@ class LocalWeatherRepository {
       weatherForecast.add(w);
     }
 
-    return Forecast(weatherForecast: weatherForecast, time: DateTime.now());
+    return Forecast(weatherForecast: weatherForecast);
   }
 
   Future<void> clear() async {

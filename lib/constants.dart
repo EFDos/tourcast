@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:tourcast/domain/city.dart';
 
 class Constants {
@@ -23,4 +24,8 @@ class Constants {
       countryCode: 492,
     ),
   ];
+
+  static const nightColorDark = Color(0xAA131862);
+  static const nightColorLight = Color(0xAA546BAB);
+  static const backgroundGradient = <Color>[nightColorLight, nightColorDark];
 }

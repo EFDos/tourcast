@@ -3,11 +3,8 @@ import 'weather.dart';
 
 class Forecast {
   static const dailyForecastMax = 5;
-
   final List<Weather> weatherForecast;
-  final DateTime time;
-
-  const Forecast({required this.weatherForecast, required this.time});
+  const Forecast({required this.weatherForecast});
 
   factory Forecast.fromJson(Map<String, dynamic> data) {
     final weatherForecast = <Weather>[];
@@ -26,11 +23,8 @@ class Forecast {
       hourlyOffset += 8;
     }
     assert(weatherForecast.isNotEmpty);
-    int timestamp = weatherListData[0]['dt'];
 
-    return Forecast(
-        weatherForecast: weatherForecast,
-        time: DateTime.fromMillisecondsSinceEpoch(timestamp));
+    return Forecast(weatherForecast: weatherForecast);
   }
 
   @override

@@ -26,14 +26,14 @@ class ConcertsPage extends ConsumerWidget {
             fontWeight: FontWeight.bold,
             shadows: [const Shadow(blurRadius: 2)]),
         centerTitle: false,
-        backgroundColor: Colors.lightBlue.shade400,
+        backgroundColor: Constants.nightColorLight,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Colors.lightBlue.shade400, Colors.blue.shade800]),
+              colors: Constants.backgroundGradient),
         ),
         child: SafeArea(
           child: Column(

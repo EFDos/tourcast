@@ -40,7 +40,7 @@ class WeatherProvider {
       _forecastTable[cityName] = remoteForecast;
       return remoteForecast;
     } on Exception catch (_) {
-      return Forecast(weatherForecast: [], time: DateTime.now());
+      return const Forecast(weatherForecast: []);
     }
   }
 

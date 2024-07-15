@@ -34,7 +34,7 @@ class CityWeatherItem extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: temperature == 0.0
                 ? const CircularProgressIndicator.adaptive()
-                : Text('${temperature.toString()}º C'),
+                : Text('${temperature.toString()}º C', style: const TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),
