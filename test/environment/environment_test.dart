@@ -4,7 +4,7 @@ import 'package:tourcast/environment/environment.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   test('api key from environment', () async {
-    String apiKey = await Environment.getApiKey();
+    String apiKey = Environment.apiKey;
     assert(apiKey.isNotEmpty);
   });
 }

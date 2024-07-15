@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tourcast/environment/environment.dart';
 import 'package:tourcast/domain/geocoordinates.dart';
 
 class GeocodingRepository {
@@ -26,6 +28,10 @@ class GeocodingRepository {
 
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
+        print(response.body);
+        if (decoded is! List<dynamic> || decoded.isEmpty) {
+          throw const FormatException('Invalid Json: empty result');
+        }
         return GeoCoordinates.fromJson(decoded[0]);
       } else {
         throw HttpException(
@@ -36,4 +42,9 @@ class GeocodingRepository {
       exit(-1);
     }
   }
+
+  static final provider = Provider<GeocodingRepository>((ref) {
+    final client = http.Client();
+    return GeocodingRepository(client: client, apiKey: Environment.apiKey);
+  });
 }

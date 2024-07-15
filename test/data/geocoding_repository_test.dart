@@ -25,7 +25,7 @@ void main() {
     });
 
     final repository = GeocodingRepository(
-        client: client, apiKey: await Environment.getApiKey());
+        client: client, apiKey: Environment.apiKey);
 
     GeoCoordinates geoCoords =
         await repository.getCityLocation(cityName: 'Sao Paulo', countryCode: 55);

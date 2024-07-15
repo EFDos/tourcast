@@ -66,7 +66,7 @@ void main() {
     });
 
     final repository = WeatherRepository(
-        client: client, apiKey: await Environment.getApiKey());
+        client: client, apiKey: Environment.apiKey);
 
     Weather weather =
         await repository.getCurrentWeather(GeoCoordinates(latitude: 44.34, longitude: 10.99));

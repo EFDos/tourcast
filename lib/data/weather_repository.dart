@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tourcast/domain/geocoordinates.dart';
 import 'package:tourcast/domain/weather.dart';
+import 'package:tourcast/environment/environment.dart';
 
 class WeatherRepository {
   static const String _baseUrl = 'api.openweathermap.org';
@@ -36,4 +38,9 @@ class WeatherRepository {
       exit(-1);
     }
   }
+
+  static final provider = Provider<WeatherRepository>((ref) {
+    final client = http.Client();
+    return WeatherRepository(client: client, apiKey: Environment.apiKey);
+  });
 }
