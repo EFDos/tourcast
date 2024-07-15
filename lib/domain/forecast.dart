@@ -7,7 +7,7 @@ class Forecast {
   final List<Weather> weatherForecast;
   final DateTime time;
 
-  Forecast({required this.weatherForecast, required this.time});
+  const Forecast({required this.weatherForecast, required this.time});
 
   factory Forecast.fromJson(Map<String, dynamic> data) {
     final weatherForecast = <Weather>[];

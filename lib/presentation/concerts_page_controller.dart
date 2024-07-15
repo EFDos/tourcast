@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tourcast/domain/weather.dart';
-import 'package:tourcast/data/geocoding_repository.dart';
-import 'package:tourcast/data/weather_repository.dart';
+import 'package:tourcast/application/weather_provider.dart';
 
 class ConcertsPageController extends AsyncNotifier<Map<String, Weather>> {
   static const cities = <String>[
@@ -27,22 +26,14 @@ class ConcertsPageController extends AsyncNotifier<Map<String, Weather>> {
 
   Future<void> getWeather() async {
     state = const AsyncLoading();
-    final geocodingRepository = ref.read(GeocodingRepository.provider);
-    final weatherRepository = ref.read(WeatherRepository.provider);
+    final weatherProvider = ref.read(WeatherProvider.provider);
     final Map<String, Weather> weatherMap = {};
 
-    try {
-      for (final (index, city) in cities.indexed) {
-        final loc = await geocodingRepository.getCityLocation(
-            cityName: city, countryCode: countryCode[index]);
-        weatherMap[city] = await weatherRepository.getCurrentWeather(loc);
-      }
-    } on Exception catch (e) {
-      print('exception: $e');
+    for (final (index, city) in cities.indexed) {
+      weatherMap[city] = await weatherProvider.getCurrent(city,
+          countryCode: countryCode[index]);
     }
-    state = await AsyncValue.guard(() async {
-      return weatherMap;
-    });
+    state = AsyncValue.data(weatherMap);
   }
 
   static final provider =

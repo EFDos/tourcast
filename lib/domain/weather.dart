@@ -1,14 +1,17 @@
 class Weather {
+  static const Weather undefined = Weather(description: '', temperature: 0.0);
   final String description;
   final double temperature;
   final double min;
   final double max;
+  final int    conditionId;
 
-  Weather(
+  const Weather(
       {required this.description,
       required this.temperature,
       this.min = 0.0,
-      this.max = 0.0});
+      this.max = 0.0,
+      this.conditionId = 0});
 
   factory Weather.fromJson(Map<String, dynamic> data) {
     final mainStruct = data['main'];
@@ -31,6 +34,11 @@ class Weather {
           'Invalid Json: Expected "description" as string');
     }
 
+    var id = conditionList[0]['id'];
+    if (id is! int) {
+      id = 0;
+    }
+
     final temp = mainStruct['temp'];
     if (temp is! double) {
       throw const FormatException('Invalid Json: Expected "temp" as double');
@@ -47,7 +55,7 @@ class Weather {
     }
 
     return Weather(
-        description: description, temperature: temp, min: min, max: max);
+        description: description, temperature: temp, min: min, max: max, conditionId: id);
   }
 
   @override

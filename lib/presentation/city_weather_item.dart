@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:tourcast/presentation/weather_icon.dart';
 
 class CityWeatherItem extends StatelessWidget {
   final String cityName;
   final String country;
   final String description;
   final double temperature;
+  final int conditionId;
 
   const CityWeatherItem(
       {required this.cityName,
       required this.country,
       this.temperature = 0.0,
       this.description = '',
+      this.conditionId = 0,
       super.key});
 
   @override
@@ -19,18 +22,20 @@ class CityWeatherItem extends StatelessWidget {
       color: Colors.lightBlue.shade50,
       child: Row(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.sunny),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: WeatherIcon(conditionId: conditionId),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text('$cityName, $country'),
           ),
-          temperature == 0.0
-              ? const CircularProgressIndicator.adaptive()
-              : Text(temperature.toString()),
-          Text(description)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: temperature == 0.0
+                ? const CircularProgressIndicator.adaptive()
+                : Text('${temperature.toString()}º C'),
+          ),
         ],
       ),
     );

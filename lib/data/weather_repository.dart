@@ -6,6 +6,7 @@ import 'package:tourcast/domain/geocoordinates.dart';
 import 'package:tourcast/domain/weather.dart';
 import 'package:tourcast/domain/forecast.dart';
 import 'package:tourcast/environment/environment.dart';
+import 'package:tourcast/exceptions/exceptions.dart';
 
 class WeatherRepository {
   static const String _baseUrl = 'api.openweathermap.org';
@@ -36,8 +37,7 @@ class WeatherRepository {
             'Http error: ${response.statusCode}: ${response.body}');
       }
     } on SocketException catch (_) {
-      stderr.writeln('TODO: Handle no internet connection');
-      exit(-1);
+      throw const NoInternetException();
     }
   }
 

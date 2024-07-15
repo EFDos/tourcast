@@ -15,17 +15,20 @@ class ConcertsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Concerts List'),
-        titleTextStyle: const TextStyle(
-            color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        titleTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          shadows: [const Shadow(blurRadius: 2)]
+        ),
         centerTitle: false,
-        backgroundColor: Colors.lightBlue.shade200,
+        backgroundColor: Colors.lightBlue.shade400,
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Colors.lightBlue.shade200, Colors.blue.shade800]),
+              colors: [Colors.lightBlue.shade400, Colors.blue.shade800]),
         ),
         child: ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -40,6 +43,7 @@ class ConcertsPage extends ConsumerWidget {
                     country: ConcertsPageController.countries[index],
                     temperature: val == null ? 0.0 : val.temperature,
                     description: val == null ? '' : val.description,
+                    conditionId: val == null ? 0 : val.conditionId,
                   ),
                   onTap: () {
                     final cityName = ConcertsPageController.cities[index];

@@ -20,8 +20,7 @@ class WeatherProvider {
         _weatherRepository = weatherRepository,
         _localWeatherRepository = localWeatherRepository;
 
-  FutureOr<Forecast> getForecast(String cityName,
-      {int countryCode = 0}) async {
+  FutureOr<Forecast> getForecast(String cityName, {int countryCode = 0}) async {
     final inMemoryForecast = _forecastTable[cityName];
     if (inMemoryForecast != null) {
       return inMemoryForecast;
@@ -33,16 +32,35 @@ class WeatherProvider {
       return localForecast;
     }
 
-    final cityLocation = await _geocodingRepository.getCityLocation(
-        cityName: cityName, countryCode: countryCode);
-
     try {
+      final cityLocation = await _geocodingRepository.getCityLocation(
+        cityName: cityName, countryCode: countryCode);
       final remoteForecast = await _weatherRepository.getForecast(cityLocation);
       _localWeatherRepository.saveForecast(cityName, remoteForecast);
       _forecastTable[cityName] = remoteForecast;
       return remoteForecast;
     } on Exception catch (_) {
       return Forecast(weatherForecast: [], time: DateTime.now());
+    }
+  }
+
+  FutureOr<Weather> getCurrent(String cityName, {int countryCode = 0}) async {
+    try {
+      final cityLocation = await _geocodingRepository.getCityLocation(
+          cityName: cityName, countryCode: countryCode);
+      return _weatherRepository.getCurrentWeather(cityLocation);
+      //_localWeatherRepository.saveForecast(cityName, remoteForecast);
+    } on Exception catch (_) {
+      if (_forecastTable.containsKey(cityName)) {
+        return _forecastTable[cityName]!.weatherForecast[0];
+      }
+
+      final localForecast = await _localWeatherRepository.getForecast(cityName);
+      if (localForecast.weatherForecast.isNotEmpty) {
+        _forecastTable[cityName] = localForecast;
+        return localForecast.weatherForecast[0];
+      }
+      return Weather.undefined;
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tourcast/environment/environment.dart';
 import 'package:tourcast/domain/geocoordinates.dart';
+import 'package:tourcast/exceptions/exceptions.dart';
 
 class GeocodingRepository {
   static const String _baseUrl = 'api.openweathermap.org';
@@ -37,8 +38,7 @@ class GeocodingRepository {
             'Http error: ${response.statusCode}: ${response.body}');
       }
     } on SocketException catch (_) {
-      stderr.writeln('TODO: Handle no internet connection');
-      exit(-1);
+      throw const NoInternetException();
     }
   }
 
