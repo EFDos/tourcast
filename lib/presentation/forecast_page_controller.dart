@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tourcast/data/geocoding_repository.dart';
-import 'package:tourcast/data/weather_repository.dart';
+import 'package:tourcast/application/weather_provider.dart';
 import 'package:tourcast/domain/weather.dart';
 
 class ForecastPageController extends AsyncNotifier<List<Weather>> {
@@ -12,19 +11,12 @@ class ForecastPageController extends AsyncNotifier<List<Weather>> {
 
   Future<void> getWeather(String cityName, int countryCode) async {
     state = const AsyncLoading();
-    final geocodingRepository = ref.read(GeocodingRepository.provider);
-    final weatherRepository = ref.read(WeatherRepository.provider);
+    final weatherProvider = ref.read(WeatherProvider.provider);
 
-    try {
-      final loc = await geocodingRepository.getCityLocation(
-          cityName: cityName, countryCode: countryCode);
-      final forecast = await weatherRepository.getForecast(loc);
-      state = await AsyncValue.guard(() async {
-        return forecast;
-      });
-    } on Exception catch (e) {
-      print('exception: $e');
-    }
+    final forecast = await weatherProvider.getForecast(cityName, countryCode: countryCode);
+    state = await AsyncValue.guard(() async {
+      return forecast;
+    });
   }
 
   static final provider =

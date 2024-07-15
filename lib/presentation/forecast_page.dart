@@ -16,7 +16,7 @@ class ForecastPage extends ConsumerWidget {
       body: state.when(
         data: (data) {
           return ListView.builder(
-            itemCount: 5,
+            itemCount: data.length,
             itemBuilder: (context, index) {
               return Card(
                 child: Row(

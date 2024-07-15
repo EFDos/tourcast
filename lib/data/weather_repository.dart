@@ -45,6 +45,7 @@ class WeatherRepository {
       'lat': geocoordinates.latitude.toString(),
       'lon': geocoordinates.longitude.toString(),
       'units': 'metric',
+      'cnt': '5',
       'appid': apiKey,
     });
 
