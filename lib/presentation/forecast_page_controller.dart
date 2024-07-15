@@ -13,7 +13,11 @@ class ForecastPageController extends AsyncNotifier<List<Weather>> {
     state = const AsyncLoading();
     final weatherProvider = ref.read(WeatherProvider.provider);
 
-    final forecast = await weatherProvider.getForecast(cityName, countryCode: countryCode);
+    final forecast =
+        await weatherProvider.getForecast(cityName, countryCode: countryCode);
+    for (final weather in forecast.weatherForecast) {
+      print('${weather.temperature}');
+    }
     state = await AsyncValue.guard(() async {
       return forecast.weatherForecast;
     });

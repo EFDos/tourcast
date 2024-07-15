@@ -34,7 +34,7 @@ class WeatherProvider {
 
     try {
       final cityLocation = await _geocodingRepository.getCityLocation(
-        cityName: cityName, countryCode: countryCode);
+          cityName: cityName, countryCode: countryCode);
       final remoteForecast = await _weatherRepository.getForecast(cityLocation);
       _localWeatherRepository.saveForecast(cityName, remoteForecast);
       _forecastTable[cityName] = remoteForecast;
@@ -49,7 +49,6 @@ class WeatherProvider {
       final cityLocation = await _geocodingRepository.getCityLocation(
           cityName: cityName, countryCode: countryCode);
       return _weatherRepository.getCurrentWeather(cityLocation);
-      //_localWeatherRepository.saveForecast(cityName, remoteForecast);
     } on Exception catch (_) {
       if (_forecastTable.containsKey(cityName)) {
         return _forecastTable[cityName]!.weatherForecast[0];

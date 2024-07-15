@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tourcast/presentation/concerts_page_controller.dart';
 import 'package:tourcast/presentation/city_weather_item.dart';
+import 'package:tourcast/presentation/connection_notifier.dart';
 import 'package:tourcast/presentation/forecast_page.dart';
 import 'package:tourcast/presentation/forecast_page_controller.dart';
 
@@ -30,41 +31,50 @@ class ConcertsPage extends ConsumerWidget {
               end: Alignment.bottomCenter,
               colors: [Colors.lightBlue.shade400, Colors.blue.shade800]),
         ),
-        child: ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          itemCount: ConcertsPageController.cities.length,
-          itemBuilder: (context, index) {
-            return state.when(
-              data: (data) {
-                final val = data[ConcertsPageController.cities[index]];
-                return GestureDetector(
-                  child: CityWeatherItem(
-                    cityName: ConcertsPageController.cities[index],
-                    country: ConcertsPageController.countries[index],
-                    temperature: val == null ? 0.0 : val.temperature,
-                    description: val == null ? '' : val.description,
-                    conditionId: val == null ? 0 : val.conditionId,
-                  ),
-                  onTap: () {
-                    final cityName = ConcertsPageController.cities[index];
-                    final countryCode = ConcertsPageController.countryCode[
-                        ConcertsPageController.cities
-                            .where((e) => e == cityName)
-                            .indexed
-                            .first
-                            .$1];
-                    ref
-                        .read(ForecastPageController.provider.notifier)
-                        .getWeather(cityName, countryCode);
-                    Navigator.of(context).pushNamed(ForecastPage.route,
-                        arguments: ConcertsPageController.cities[index]);
+        child: SafeArea(
+          child: Column(
+            children: [
+              const ConnectionNotifier(),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  itemCount: ConcertsPageController.cities.length,
+                  itemBuilder: (context, index) {
+                    return state.when(
+                      data: (data) {
+                        final val = data[ConcertsPageController.cities[index]];
+                        return GestureDetector(
+                          child: CityWeatherItem(
+                            cityName: ConcertsPageController.cities[index],
+                            country: ConcertsPageController.countries[index],
+                            temperature: val == null ? 0.0 : val.temperature,
+                            description: val == null ? '' : val.description,
+                            conditionId: val == null ? 0 : val.conditionId,
+                          ),
+                          onTap: () {
+                            final cityName = ConcertsPageController.cities[index];
+                            final countryCode = ConcertsPageController.countryCode[
+                                ConcertsPageController.cities
+                                    .where((e) => e == cityName)
+                                    .indexed
+                                    .first
+                                    .$1];
+                            ref
+                                .read(ForecastPageController.provider.notifier)
+                                .getWeather(cityName, countryCode);
+                            Navigator.of(context).pushNamed(ForecastPage.route,
+                                arguments: ConcertsPageController.cities[index]);
+                          },
+                        );
+                      },
+                      error: (e, __) => Text(e.toString()),
+                      loading: () => const CircularProgressIndicator.adaptive(),
+                    );
                   },
-                );
-              },
-              error: (e, __) => Text(e.toString()),
-              loading: () => const CircularProgressIndicator.adaptive(),
-            );
-          },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,18 +1,19 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ConnectionChecker {
-  static Future<bool> checkConnection() async {
+  static Future<void> checkConnection(Function(bool state) listener) async {
     Socket? socket;
     try {
       socket = await Socket.connect('1.1.1.1', 53,
           timeout: const Duration(seconds: 5))
         ..destroy();
-      return true;
+      listener(true);
     } catch (e) {
       socket?.destroy();
-      return false;
+      listener(false);
     }
   }
 
@@ -21,19 +22,26 @@ class ConnectionChecker {
   //});
 }
 
-class ConnectionCheckerNotifier extends AsyncNotifier<bool> {
-  @override
+class ConnectionCheckerNotifier extends Notifier<bool> {
+  /*@override
   FutureOr<bool> build() {
+    check();
+    return true;
+  }*/
+
+  @override
+  bool build() {
     check();
     return true;
   }
 
-  Future<void> check() async {
-    state = await AsyncValue.guard(() {
-      return ConnectionChecker.checkConnection();
+  void check() {
+    ConnectionChecker.checkConnection((newState) {
+      state = newState;
+      Future.delayed(const Duration(seconds: 2), () => check());
     });
   }
 
-  static final provider =
-      AsyncNotifierProvider<ConnectionCheckerNotifier, bool>(() => ConnectionCheckerNotifier());
+  static final provider = NotifierProvider<ConnectionCheckerNotifier, bool>(
+      () => ConnectionCheckerNotifier());
 }

@@ -26,10 +26,11 @@ class LocalWeatherRepository {
           '  timestamp DATETIME DEFAULT CURRENT_TIMESAMP);');
       await db.execute('CREATE TABLE forecasts('
           '  id INTEGER PRIMARY KEY,'
-          '  description TEST,'
+          '  description TEXT,'
           '  temperature REAL,'
           '  min         REAL,'
           '  max         REAL,'
+          '  condition   INTEGER,'
           '  city        INTEGER,'
           '  FOREIGN KEY(city) REFERENCES cities(id));');
       await db.execute(
@@ -46,6 +47,9 @@ class LocalWeatherRepository {
       await dbRef.insert('forecasts', {
         'description': weather.description,
         'temperature': weather.temperature,
+        'min': weather.min,
+        'max': weather.max,
+        'condition': weather.conditionId,
         'city': id
       });
     }
@@ -65,7 +69,10 @@ class LocalWeatherRepository {
     for (final map in listMap) {
       final w = Weather(
           description: map['description'] as String,
-          temperature: map['temperature'] as double);
+          temperature: map['temperature'] as double,
+          min: map['min'] as double,
+          max: map['max'] as double,
+          conditionId: map['condition'] as int);
       weatherForecast.add(w);
     }
 

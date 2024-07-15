@@ -263,8 +263,8 @@ void main() {
         WeatherRepository(client: client, apiKey: Environment.apiKey);
 
     Weather weather = await repository
-        .getCurrentWeather(GeoCoordinates(latitude: 44.34, longitude: 10.99));
-    expect(weather, Weather(description: 'moderate rain', temperature: 298.48, min: 297.56, max: 300.05));
+        .getCurrentWeather(const GeoCoordinates(latitude: 44.34, longitude: 10.99));
+    expect(weather, const Weather(description: 'moderate rain', temperature: 298.48, min: 297.56, max: 300.05));
   });
 
   test('forecast response test', () async {
@@ -276,7 +276,7 @@ void main() {
         WeatherRepository(client: client, apiKey: Environment.apiKey);
 
     final forecast = await repository
-        .getForecast(GeoCoordinates(latitude: 44.34, longitude: 10.99));
+        .getForecast(const GeoCoordinates(latitude: 44.34, longitude: 10.99));
     expect(forecast.weatherForecast.length, 1);
   });
 }
