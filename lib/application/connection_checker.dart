@@ -38,7 +38,7 @@ class ConnectionCheckerNotifier extends Notifier<bool> {
   void check() {
     ConnectionChecker.checkConnection((newState) {
       state = newState;
-      Future.delayed(const Duration(seconds: 2), () => check());
+      Future.delayed(const Duration(seconds: 5), () => check());
     });
   }
 

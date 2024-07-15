@@ -16,15 +16,22 @@ class ForecastItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Row(
-        children: [
-          WeatherIcon(conditionId: conditionId),
-          Text(temperature.toString()),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-          Text(max.toString()),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-          Text(min.toString()),
-        ],
+      color: Colors.white54,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            WeatherIcon(conditionId: conditionId),
+            const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
+            Text(temperature.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+            const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
+            const Icon(Icons.keyboard_arrow_up, color: Colors.orange),
+            Text(max.toString()),
+            const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
+            const Icon(Icons.keyboard_arrow_down, color: Colors.lightBlue),
+            Text(min.toString()),
+          ],
+        ),
       ),
     );
   }
