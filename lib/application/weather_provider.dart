@@ -4,9 +4,10 @@ import 'package:tourcast/data/geocoding_repository.dart';
 import 'package:tourcast/data/weather_repository.dart';
 import 'package:tourcast/data/local_weather_repository.dart';
 import 'package:tourcast/domain/weather.dart';
+import 'package:tourcast/domain/forecast.dart';
 
 class WeatherProvider {
-  final Map<String, List<Weather>> _forecastTable = {};
+  final Map<String, Forecast> _forecastTable = {};
   final GeocodingRepository _geocodingRepository;
   final WeatherRepository _weatherRepository;
   final LocalWeatherRepository _localWeatherRepository;
@@ -19,7 +20,7 @@ class WeatherProvider {
         _weatherRepository = weatherRepository,
         _localWeatherRepository = localWeatherRepository;
 
-  FutureOr<List<Weather>> getForecast(String cityName,
+  FutureOr<Forecast> getForecast(String cityName,
       {int countryCode = 0}) async {
     final inMemoryForecast = _forecastTable[cityName];
     if (inMemoryForecast != null) {
@@ -27,7 +28,7 @@ class WeatherProvider {
     }
 
     final localForecast = await _localWeatherRepository.getForecast(cityName);
-    if (localForecast.isNotEmpty) {
+    if (localForecast.weatherForecast.isNotEmpty) {
       _forecastTable[cityName] = localForecast;
       return localForecast;
     }
@@ -41,7 +42,7 @@ class WeatherProvider {
       _forecastTable[cityName] = remoteForecast;
       return remoteForecast;
     } on Exception catch (_) {
-      return [];
+      return Forecast(weatherForecast: [], time: DateTime.now());
     }
   }
 

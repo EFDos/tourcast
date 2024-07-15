@@ -4,11 +4,11 @@ import 'package:tourcast/domain/weather.dart';
 
 void main() {
   test('weather equality', () {
-    final weatherA = Weather(description: 'A', temperature: 42.0);
-    final weatherB = Weather(description: 'A', temperature: 42.0);
+    final weatherA = Weather(description: 'A', temperature: 42.0, min: 40.0, max: 43.0);
+    final weatherB = Weather(description: 'A', temperature: 42.0, min: 40.0, max: 43.0);
     expect(weatherA, weatherB);
 
-    final weatherC = Weather(description: 'C', temperature: 16);
+    final weatherC = Weather(description: 'C', temperature: 16, min: 15, max: 17);
     expect(weatherA, isNot(equals(weatherC)));
   });
 

@@ -2,6 +2,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tourcast/domain/weather.dart';
+import 'package:tourcast/domain/forecast.dart';
 
 class LocalWeatherRepository {
   Database? _db;
@@ -18,7 +19,7 @@ class LocalWeatherRepository {
   Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'weather.db');
-    return await openDatabase(path, version: 1, onCreate: (db, newer) async {
+    return await openDatabase(path, version: 2, onCreate: (db, newer) async {
       await db.execute('CREATE TABLE cities('
           '  id INTEGER PRIMARY KEY,'
           '  name TEXT,'
@@ -27,6 +28,8 @@ class LocalWeatherRepository {
           '  id INTEGER PRIMARY KEY,'
           '  description TEST,'
           '  temperature REAL,'
+          '  min         REAL,'
+          '  max         REAL,'
           '  city        INTEGER,'
           '  FOREIGN KEY(city) REFERENCES cities(id));');
       await db.execute(
@@ -34,12 +37,12 @@ class LocalWeatherRepository {
     });
   }
 
-  Future<void> saveForecast(String cityName, List<Weather> forecast) async {
+  Future<void> saveForecast(String cityName, Forecast forecast) async {
     var dbRef = await db;
     int id = await dbRef.insert('cities', {'name': cityName},
         conflictAlgorithm: ConflictAlgorithm.replace);
     await dbRef.delete('forecasts', where: 'city = ?', whereArgs: [id]);
-    for (final weather in forecast) {
+    for (final weather in forecast.weatherForecast) {
       await dbRef.insert('forecasts', {
         'description': weather.description,
         'temperature': weather.temperature,
@@ -48,7 +51,7 @@ class LocalWeatherRepository {
     }
   }
 
-  Future<List<Weather>> getForecast(String cityName) async {
+  Future<Forecast> getForecast(String cityName) async {
     var dbRef = await db;
     final cityMap =
         await dbRef.rawQuery('SELECT * FROM cities WHERE name = "$cityName";');
@@ -58,14 +61,15 @@ class LocalWeatherRepository {
     }
     final listMap =
         await dbRef.rawQuery('SELECT * FROM forecasts WHERE city = "$id";');
-    final forecast = <Weather>[];
+    final weatherForecast = <Weather>[];
     for (final map in listMap) {
       final w = Weather(
           description: map['description'] as String,
           temperature: map['temperature'] as double);
-      forecast.add(w);
+      weatherForecast.add(w);
     }
-    return forecast;
+
+    return Forecast(weatherForecast: weatherForecast, time: DateTime.now());
   }
 
   Future<void> clear() async {

@@ -15,7 +15,7 @@ class ForecastPageController extends AsyncNotifier<List<Weather>> {
 
     final forecast = await weatherProvider.getForecast(cityName, countryCode: countryCode);
     state = await AsyncValue.guard(() async {
-      return forecast;
+      return forecast.weatherForecast;
     });
   }
 

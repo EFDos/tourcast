@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:tourcast/data/local_weather_repository.dart';
 import 'package:tourcast/domain/weather.dart';
+import 'package:tourcast/domain/forecast.dart';
 
 void main() {
   late final LocalWeatherRepository repository;
@@ -16,30 +17,34 @@ void main() {
   });
 
   test('local weather repository save current', () async {
-    var baseWeather =
-        Weather(temperature: 33.2, description: 'very hot oh dear');
-    await repository.saveForecast('Sao Paulo', [baseWeather]);
+    var baseForecast =
+        Forecast(
+          weatherForecast: [Weather(temperature: 33.2, description: 'very hot oh dear')],
+          time: DateTime.now()
+        );
+    await repository.saveForecast('Sao Paulo', baseForecast);
 
-    var retrievedWeather = await repository.getForecast('Sao Paulo');
-    expect(retrievedWeather.length, 1);
-    expect(retrievedWeather[0], baseWeather);
+    var retrievedForecast = await repository.getForecast('Sao Paulo');
+    expect(retrievedForecast, baseForecast);
 
-    baseWeather = Weather(temperature: 16.5, description: 'rainy');
-    await repository.saveForecast('Monte Carlo', [baseWeather]);
+    baseForecast = Forecast(
+      weatherForecast: [Weather(temperature: 16.5, description: 'rainy')],
+      time: DateTime.now()
+    );
+    await repository.saveForecast('Monte Carlo', baseForecast);
 
-    retrievedWeather = await repository.getForecast('Monte Carlo');
-    expect(retrievedWeather.length, 1);
-    expect(retrievedWeather[0], baseWeather);
+    retrievedForecast = await repository.getForecast('Monte Carlo');
+    expect(retrievedForecast, baseForecast);
   });
 
   test('local weather repository save forecast', () async {
-    final baseForecast = <Weather>[
+    final baseForecast = Forecast(weatherForecast: <Weather>[
       Weather(description: 'rainy', temperature: 15.0),
       Weather(description: 'rainy', temperature: 12.0),
       Weather(description: 'rainy', temperature: 13.0),
       Weather(description: 'sunny', temperature: 22.0),
       Weather(description: 'sunny', temperature: 25.0),
-    ];
+    ], time: DateTime.now());
 
     await repository.saveForecast('Silverstone', baseForecast);
     final retrieved = await repository.getForecast('Silverstone');
