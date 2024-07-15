@@ -11,7 +11,13 @@ class ConcertsPageController extends AsyncNotifier<Map<String, Weather>> {
     'Melbourne',
     'Monte Carlo'
   ];
-  static const countries = <String>['UK', 'Brazil', 'Australia', 'Monaco'];
+  static const countries = <String>[
+    'Great Britain',
+    'Brazil',
+    'Australia',
+    'Monaco'
+  ];
+  static const countryCode = <int>[826, 76, 36, 492];
 
   @override
   FutureOr<Map<String, Weather>> build() {
@@ -21,20 +27,20 @@ class ConcertsPageController extends AsyncNotifier<Map<String, Weather>> {
 
   Future<void> getWeather() async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final geocodingRepository = ref.read(GeocodingRepository.provider);
-      final weatherRepository = ref.read(WeatherRepository.provider);
-      final Map<String, Weather> weatherMap = {};
+    final geocodingRepository = ref.read(GeocodingRepository.provider);
+    final weatherRepository = ref.read(WeatherRepository.provider);
+    final Map<String, Weather> weatherMap = {};
 
-      try {
-        for (final city in cities) {
-          final loc = await geocodingRepository.getCityLocation(
-              cityName: city, countryCode: 55);
-          weatherMap[city] = await weatherRepository.getCurrentWeather(loc);
-        }
-      } on Exception catch (e) {
-        print('exception: $e');
+    try {
+      for (final (index, city) in cities.indexed) {
+        final loc = await geocodingRepository.getCityLocation(
+            cityName: city, countryCode: countryCode[index]);
+        weatherMap[city] = await weatherRepository.getCurrentWeather(loc);
       }
+    } on Exception catch (e) {
+      print('exception: $e');
+    }
+    state = await AsyncValue.guard(() async {
       return weatherMap;
     });
   }

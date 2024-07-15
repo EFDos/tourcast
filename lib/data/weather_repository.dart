@@ -10,6 +10,7 @@ class WeatherRepository {
   static const String _baseUrl = 'api.openweathermap.org';
   static const String _api = '/data/2.5';
   static const String _weather = '/weather';
+  static const String _forecast = '/forecast';
 
   final http.Client client;
   final String apiKey;
@@ -29,6 +30,34 @@ class WeatherRepository {
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
         return Weather.fromJson(decoded);
+      } else {
+        throw HttpException(
+            'Http error: ${response.statusCode}: ${response.body}');
+      }
+    } on SocketException catch (_) {
+      stderr.writeln('TODO: Handle no internet connection');
+      exit(-1);
+    }
+  }
+
+  Future<List<Weather>> getForecast(GeoCoordinates geocoordinates) async {
+    final url = Uri.https(_baseUrl, _api + _forecast, {
+      'lat': geocoordinates.latitude.toString(),
+      'lon': geocoordinates.longitude.toString(),
+      'units': 'metric',
+      'appid': apiKey,
+    });
+
+    try {
+      final response = await client.get(url);
+      if (response.statusCode == 200) {
+        final decoded = json.decode(response.body);
+        final dataList = decoded['list'];
+        final forecast = <Weather>[];
+        for (final weatherData in dataList) {
+          forecast.add(Weather.fromJson(weatherData));
+        }
+        return forecast;
       } else {
         throw HttpException(
             'Http error: ${response.statusCode}: ${response.body}');

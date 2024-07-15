@@ -29,13 +29,12 @@ class ConcertsPage extends ConsumerWidget {
             return state.when(
               data: (data) {
                 final val = data[ConcertsPageController.cities[index]];
-                return val == null ? const CircularProgressIndicator.adaptive() :
-                    CityWeatherItem(
-                        cityName: ConcertsPageController.cities[index],
-                        country: ConcertsPageController.countries[index],
-                        temperature: val.temperature,
-                        description: val.description,
-                    );
+                return CityWeatherItem(
+                  cityName: ConcertsPageController.cities[index],
+                  country: ConcertsPageController.countries[index],
+                  temperature: val == null ? 0.0 : val.temperature ,
+                  description: val == null ? '' : val.description,
+                );
               },
               error: (e, __) => Text(e.toString()),
               loading: () =>
