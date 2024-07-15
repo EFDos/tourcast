@@ -28,7 +28,6 @@ class GeocodingRepository {
 
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
-        print(response.body);
         if (decoded is! List<dynamic> || decoded.isEmpty) {
           throw const FormatException('Invalid Json: empty result');
         }
