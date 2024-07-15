@@ -4,7 +4,7 @@ class Weather {
   final double temperature;
   final double min;
   final double max;
-  final int    conditionId;
+  final int conditionId;
 
   const Weather(
       {required this.description,
@@ -12,6 +12,20 @@ class Weather {
       this.min = 0.0,
       this.max = 0.0,
       this.conditionId = 0});
+
+  Weather copyWith(
+      {String? description,
+      double? temperature,
+      double? min,
+      double? max,
+      int? conditionId}) {
+    return Weather(
+        description: description ?? this.description,
+        temperature: temperature ?? this.temperature,
+        min: min ?? this.min,
+        max: max ?? this.max,
+        conditionId: conditionId ?? this.conditionId);
+  }
 
   factory Weather.fromJson(Map<String, dynamic> data) {
     final mainStruct = data['main'];
@@ -55,7 +69,11 @@ class Weather {
     }
 
     return Weather(
-        description: description, temperature: temp, min: min, max: max, conditionId: id);
+        description: description,
+        temperature: temp,
+        min: min,
+        max: max,
+        conditionId: id);
   }
 
   @override

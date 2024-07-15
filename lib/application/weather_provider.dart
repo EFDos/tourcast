@@ -36,8 +36,8 @@ class WeatherProvider {
       final cityLocation = await _geocodingRepository.getCityLocation(
           cityName: cityName, countryCode: countryCode);
       final remoteForecast = await _weatherRepository.getForecast(cityLocation);
-      _localWeatherRepository.saveForecast(cityName, remoteForecast);
-      _forecastTable[cityName] = remoteForecast;
+      //_localWeatherRepository.saveForecast(cityName, remoteForecast);
+      //_forecastTable[cityName] = remoteForecast;
       return remoteForecast;
     } on Exception catch (_) {
       return const Forecast(weatherForecast: []);
