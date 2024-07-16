@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tourcast/application/city_provider.dart';
 
+/// Widget utilized in [ConcertsPage] to filter the
+/// concerts list
 class CitySearchField extends ConsumerStatefulWidget {
   const CitySearchField({super.key});
 

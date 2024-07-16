@@ -8,6 +8,9 @@ import 'package:tourcast/domain/forecast.dart';
 import 'package:tourcast/environment/environment.dart';
 import 'package:tourcast/exceptions/exceptions.dart';
 
+/// [WeatherRepository]
+/// Uses OpenWeather API to fetch current weather and forecast
+/// from specified [GeoCoordinates]
 class WeatherRepository {
   static const String _baseUrl = 'api.openweathermap.org';
   static const String _api = '/data/2.5';
@@ -17,8 +20,10 @@ class WeatherRepository {
   final http.Client client;
   final String apiKey;
 
+  /// http [client] and [apiKey] must be provided
   WeatherRepository({required this.client, required this.apiKey});
 
+  /// Get current [Weather] from [GeoCoordinates]
   Future<Weather> getCurrentWeather(GeoCoordinates geocoordinates) async {
     final url = Uri.https(_baseUrl, _api + _weather, {
       'lat': geocoordinates.latitude.toString(),
@@ -41,6 +46,7 @@ class WeatherRepository {
     }
   }
 
+  /// Get 5 day [Forecast] from [GeoCoordinates]
   Future<Forecast> getForecast(GeoCoordinates geocoordinates) async {
     final url = Uri.https(_baseUrl, _api + _forecast, {
       'lat': geocoordinates.latitude.toString(),

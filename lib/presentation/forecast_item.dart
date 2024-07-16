@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tourcast/presentation/weather_icon.dart';
 
+/// Widget for each sample in Forecast list
 class ForecastItem extends StatelessWidget {
   final double temperature;
   final double min;
@@ -16,14 +17,15 @@ class ForecastItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white54,
+      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
             WeatherIcon(conditionId: conditionId),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
-            Text(temperature.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(temperature.toString(),
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
             const Icon(Icons.keyboard_arrow_up, color: Colors.orange),
             Text(max.toString()),

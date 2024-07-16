@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tourcast/constants.dart';
 import 'package:tourcast/application/city_provider.dart';
-import 'package:tourcast/presentation/city_weather_item.dart';
-import 'package:tourcast/presentation/city_search_field.dart';
-import 'package:tourcast/presentation/connection_notifier.dart';
+import 'package:tourcast/presentation/widgets/city_weather_item.dart';
+import 'package:tourcast/presentation/widgets/city_search_field.dart';
+import 'package:tourcast/presentation/widgets/connection_notifier.dart';
 import 'package:tourcast/presentation/forecast_page.dart';
 import 'package:tourcast/presentation/concerts_page_controller.dart';
 import 'package:tourcast/presentation/forecast_page_controller.dart';
 
+/// Main [ConcertsPage]
+/// Used with [ConcertsPageController]
 class ConcertsPage extends ConsumerWidget {
   static const route = '/concerts';
   const ConcertsPage({super.key});

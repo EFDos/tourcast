@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Utility Widget to get a symbolic Icon
+/// from OpenWeather's [conditionId]
+/// refer to: https://openweathermap.org/weather-conditions
 class WeatherIcon extends StatelessWidget {
   final int conditionId;
   const WeatherIcon({required this.conditionId, super.key});
@@ -17,13 +20,16 @@ class WeatherIcon extends StatelessWidget {
     if (conditionId >= 600 && conditionId < 633) {
       return Icons.snowing;
     }
+    if (conditionId >= 700 && conditionId < 790) {
+      return Icons.foggy;
+    }
     if (conditionId == 800) {
       return Icons.sunny;
     }
     if (conditionId > 800) {
       return Icons.wb_cloudy_sharp;
     }
-    return Icons.signal_wifi_connected_no_internet_4;
+    return Icons.clear;
   }
 
   Color colorFromConditionId() {
@@ -38,6 +44,9 @@ class WeatherIcon extends StatelessWidget {
     }
     if (conditionId >= 600 && conditionId < 633) {
       return Colors.lightBlue;
+    }
+    if (conditionId >= 700 && conditionId < 790) {
+      return Colors.grey.shade500;
     }
     if (conditionId == 800) {
       return Colors.yellow.shade900;

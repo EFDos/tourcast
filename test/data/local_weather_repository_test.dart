@@ -17,18 +17,18 @@ void main() {
   });
 
   test('local weather repository save current', () async {
-    var baseForecast =
-        const Forecast(
-          weatherForecast: [Weather(temperature: 33.2, description: 'very hot oh dear')],
-        );
+    var baseForecast = const Forecast(
+      weatherForecast: [
+        Weather(temperature: 33.2, description: 'very hot oh dear')
+      ],
+    );
     await repository.saveForecast('Sao Paulo', baseForecast);
 
     var retrievedForecast = await repository.getForecast('Sao Paulo');
     expect(retrievedForecast, baseForecast);
 
     baseForecast = const Forecast(
-      weatherForecast: [Weather(temperature: 16.5, description: 'rainy')]
-    );
+        weatherForecast: [Weather(temperature: 16.5, description: 'rainy')]);
     await repository.saveForecast('Monte Carlo', baseForecast);
 
     retrievedForecast = await repository.getForecast('Monte Carlo');
@@ -47,5 +47,17 @@ void main() {
     await repository.saveForecast('Silverstone', baseForecast);
     final retrieved = await repository.getForecast('Silverstone');
     expect(baseForecast, retrieved);
+  });
+
+  test('insertion timestamp', () async {
+    const baseForecast = Forecast(
+      weatherForecast: [
+        Weather(temperature: 33.2, description: 'very hot oh dear')
+      ],
+    );
+    await repository.saveForecast('Sao Paulo', baseForecast);
+
+    final time = await repository.getLastUpdate('Sao Paulo');
+    expect(DateTime.now().minute - time!.minute, lessThan(1));
   });
 }

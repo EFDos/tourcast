@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tourcast/presentation/weather_icon.dart';
 
+/// Widget for the list of cities
 class CityWeatherItem extends StatelessWidget {
   final String cityName;
   final String country;
@@ -34,7 +35,8 @@ class CityWeatherItem extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: temperature == 0.0
                 ? const CircularProgressIndicator.adaptive()
-                : Text('${temperature.toString()}º C', style: const TextStyle(fontWeight: FontWeight.bold)),
+                : Text('${temperature.toString()}º C',
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),

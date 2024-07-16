@@ -1,37 +1,26 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tourcast/constants.dart';
 import 'package:tourcast/domain/weather.dart';
 import 'package:tourcast/application/weather_provider.dart';
 
+/// Notifies [ConcertsPage] with current weather for all cities
 class ConcertsPageController extends AsyncNotifier<Map<String, Weather>> {
-  static const cities = <String>[
-    'Silverstone',
-    'Sao Paulo',
-    'Melbourne',
-    'Monte Carlo'
-  ];
-  static const countries = <String>[
-    'Great Britain',
-    'Brazil',
-    'Australia',
-    'Monaco'
-  ];
-  static const countryCode = <int>[826, 76, 36, 492];
-
   @override
   FutureOr<Map<String, Weather>> build() {
     getWeather();
     return {};
   }
 
+  /// Get current weather for all cities
   Future<void> getWeather() async {
     state = const AsyncLoading();
     final weatherProvider = ref.read(WeatherProvider.provider);
     final Map<String, Weather> weatherMap = {};
 
-    for (final (index, city) in cities.indexed) {
-      weatherMap[city] = await weatherProvider.getCurrent(city,
-          countryCode: countryCode[index]);
+    for (final city in Constants.cities) {
+      weatherMap[city.name] = await weatherProvider.getCurrent(city.name,
+          countryCode: city.countryCode);
     }
     state = AsyncValue.data(weatherMap);
   }

@@ -1,9 +1,23 @@
+/// [Weather] Model class
+/// Used as response to current weather and forecasts
 class Weather {
+  /// Auxiliary undefined
   static const Weather undefined = Weather(description: '', temperature: 0.0);
+
+  /// Weather description as short text
   final String description;
+
+  /// Current temperature (or daily average in forecasts)
   final double temperature;
+
+  /// Minimum temperature projection
   final double min;
+
+  /// Maximum temperature projection
   final double max;
+
+  /// ID number identifying weather conditions
+  /// (used to select weather icons)
   final int conditionId;
 
   const Weather(
@@ -13,6 +27,7 @@ class Weather {
       this.max = 0.0,
       this.conditionId = 0});
 
+  /// Copy [Weather] overriding selected fields
   Weather copyWith(
       {String? description,
       double? temperature,
@@ -27,6 +42,7 @@ class Weather {
         conditionId: conditionId ?? this.conditionId);
   }
 
+  /// Factory [Weather] from a Json object
   factory Weather.fromJson(Map<String, dynamic> data) {
     final mainStruct = data['main'];
     if (mainStruct is! Map<String, dynamic>) {
@@ -82,9 +98,11 @@ class Weather {
         description == other.description &&
         temperature == other.temperature &&
         min == other.min &&
-        max == other.max;
+        max == other.max &&
+        conditionId == other.conditionId;
   }
 
   @override
-  int get hashCode => Object.hash(description, temperature, min, max);
+  int get hashCode =>
+      Object.hash(description, temperature, min, max, conditionId);
 }

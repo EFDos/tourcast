@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tourcast/domain/city.dart';
 
 class Constants {
+  /// Current list of touring cities
+  /// TODO: Make it dynamic
   static const cities = <City>[
     City(
       name: 'Silverstone',
@@ -25,7 +27,12 @@ class Constants {
     ),
   ];
 
+  /// Used for background color gradient
   static const nightColorDark = Color(0xAA131862);
+
+  /// Used for background color gradient
   static const nightColorLight = Color(0xAA546BAB);
+
+  /// Background color gradient
   static const backgroundGradient = <Color>[nightColorLight, nightColorDark];
 }

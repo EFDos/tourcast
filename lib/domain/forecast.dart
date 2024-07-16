@@ -2,12 +2,21 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'weather.dart';
 
+/// [Forecast] Model class
+/// Holds data up to 5 days
 class Forecast {
+  /// Maximum daily forecast
   static const dailyForecastMax = 5;
+
+  /// Since samples are provide in a 3 hour interval, each day is comprised of 8 [dailySamples]
   static const dailySamples = 8;
+
+  /// List up to 5 [Weather] samples
   final List<Weather> weatherForecast;
+
   const Forecast({required this.weatherForecast});
 
+  /// Factory [Forecast] from a Json object
   factory Forecast.fromJson(Map<String, dynamic> data) {
     final weatherForecast = <Weather>[];
     final weatherListData = data['list'];
@@ -32,7 +41,6 @@ class Forecast {
           .copyWith(min: min, max: max));
       hourlyOffset += 8;
     }
-    assert(weatherForecast.isNotEmpty);
 
     return Forecast(weatherForecast: weatherForecast);
   }

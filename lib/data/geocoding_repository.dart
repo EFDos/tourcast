@@ -6,6 +6,9 @@ import 'package:tourcast/environment/environment.dart';
 import 'package:tourcast/domain/geocoordinates.dart';
 import 'package:tourcast/exceptions/exceptions.dart';
 
+/// [GeocodingRepository]
+/// Uses OpenWeather Geocoding API to fetch Geocoordinates
+/// from a city name and optionally country code.
 class GeocodingRepository {
   static const String _baseUrl = 'api.openweathermap.org';
   static const String _api = '/geo/1.0';
@@ -14,7 +17,12 @@ class GeocodingRepository {
   final http.Client client;
   final String apiKey;
 
+  /// Http [client] and [apiKey] must be provided
   GeocodingRepository({required this.client, required this.apiKey});
+
+  /// Get geocoordinates from [cityName]
+  /// Although [countryCode] is required as parameter, it's not
+  /// always necessary to provide the correct code.
   Future<GeoCoordinates> getCityLocation(
       {required String cityName, required int countryCode}) async {
     cityName.replaceAll(' ', '\\');

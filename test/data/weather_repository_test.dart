@@ -264,7 +264,7 @@ void main() {
 
     Weather weather = await repository
         .getCurrentWeather(const GeoCoordinates(latitude: 44.34, longitude: 10.99));
-    expect(weather, const Weather(description: 'moderate rain', temperature: 298.48, min: 297.56, max: 300.05));
+    expect(weather, const Weather(description: 'moderate rain', temperature: 298.48, min: 297.56, max: 300.05, conditionId: 501));
   });
 
   test('forecast response test', () async {

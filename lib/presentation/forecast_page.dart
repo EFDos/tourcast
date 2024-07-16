@@ -4,8 +4,10 @@ import 'package:tourcast/constants.dart';
 import 'package:tourcast/domain/city.dart';
 import 'package:tourcast/presentation/forecast_page_controller.dart';
 import 'package:tourcast/presentation/forecast_item.dart';
-import 'package:tourcast/presentation/connection_notifier.dart';
+import 'package:tourcast/presentation/widgets/connection_notifier.dart';
 
+/// Forecast details page
+/// Used with [ForecastPageController]
 class ForecastPage extends ConsumerWidget {
   static const route = '/forecast';
 
