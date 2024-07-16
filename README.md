@@ -3,7 +3,7 @@
 A Band's Touring Forecast App!
 For Cloudwalk's Mobile Engineer test
 
-![image info](screenshots/screenshot.png)
+<img src="screenshots/screenshot.png" width=250></img>
 
 ## Running the Project
 
