@@ -3,6 +3,8 @@
 A Band's Touring Forecast App!
 For Cloudwalk's Mobile Engineer test
 
+![image info](screenshots/screenshot.png)
+
 ## Running the Project
 
 If you have make avaiable, the easiest way is to set your OpenWeather API key
