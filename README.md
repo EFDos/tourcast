@@ -1,16 +1,19 @@
-# tourcast
+# Tourcast
 
-A new Flutter project.
+A Band's Touring Forecast App!
+For Cloudwalk's Mobile Engineer test
 
-## Getting Started
+## Running the Project
 
-This project is a starting point for a Flutter application.
+If you have make avaiable, the easiest way is to set your OpenWeather API key
+in a `env.json` file and run `make test` and `make run`.
 
-A few resources to get you started if this is your first Flutter project:
+Alternatively you can provide you api with
+`flutter run --dart-define=API_KEY={YOUR KEY}`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Main screen with city's list and search field
+- Details screen with 5 day forecast
+- Internet availability checking to notify user
+- Local persistency when network is not available

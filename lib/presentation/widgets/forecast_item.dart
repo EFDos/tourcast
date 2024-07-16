@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tourcast/presentation/weather_icon.dart';
+import 'package:tourcast/presentation/widgets/weather_icon.dart';
 
 /// Widget for each sample in Forecast list
 class ForecastItem extends StatelessWidget {

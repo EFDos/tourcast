@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tourcast/constants.dart';
 import 'package:tourcast/domain/city.dart';
-import 'package:tourcast/presentation/forecast_page_controller.dart';
-import 'package:tourcast/presentation/forecast_item.dart';
+import 'package:tourcast/presentation/widgets/forecast_item.dart';
 import 'package:tourcast/presentation/widgets/connection_notifier.dart';
+import 'package:tourcast/presentation/forecast_page_controller.dart';
 
 /// Forecast details page
 /// Used with [ForecastPageController]

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tourcast/presentation/weather_icon.dart';
+import 'package:tourcast/presentation/widgets/weather_icon.dart';
 
 /// Widget for the list of cities
 class CityWeatherItem extends StatelessWidget {
