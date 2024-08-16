@@ -1,7 +1,7 @@
 # Tourcast
 
 A Band's Touring Forecast App
--- Exercise the creation of a simple flutter application consuming the OpenWeather API.
+-- Exercise the creation of a simple flutter application using the OpenWeather API within 48 hours
 
 <img src="screenshots/screenshot.png" width=250></img>
 
